@@ -84,6 +84,16 @@ TYPE_DESCRIPTOR = {
     'D': 'double',
 }
 
+def dot_buff(ins, idx) :
+  op_value = ins.get_op_value()
+
+  if op_value == 0x300 :
+    return ins.get_name() + " " + ins.get_output(idx).replace("\"", "")
+  elif op_value == 0x1a :
+    return ins.get_name() + " " + ins.get_output(idx).replace("\"", "") #"".join(html_escape_table.get(c,c) for c in ins.get_output())
+
+  return ins.get_name() + " " + ins.get_output(idx)
+
 def get_access_flags_string(value):
   """
       Transform an access flags to the corresponding string
@@ -7413,6 +7423,9 @@ class DalvikVMFormat(bytecode._Bytecode):
           Show (but pretty !) the all information in the object
         """
         self.map_list.pretty_show()
+        
+    def dotbuff(self, ins, idx) :
+        return dot_buff(ins, idx)
 
     def save(self):
       """

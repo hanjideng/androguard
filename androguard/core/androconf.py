@@ -26,7 +26,7 @@ import imp
 ANDROGUARD_VERSION = "3.0"
 
 from androguard.core.api_specific_resources.aosp_permissions.aosp_permissions import AOSP_PERMISSIONS
-
+from androguard.core.api_specific_resources.api_permission_mappings.api_permission_mappings import AOSP_PERMISSIONS_MAPPINGS
 def is_ascii_problem(s):
     try:
         s.decode("ascii")
@@ -359,9 +359,18 @@ def color_range( startcolor, goalcolor, steps ):
 
 
 def load_api_specific_resource_module(resource_name, api):
-    if not api:
-        api = CONF["DEFAULT_API"]
-    value = AOSP_PERMISSIONS.get(api)
-    if value:
-        return value
-    return AOSP_PERMISSIONS.get('9')
+    if resource_name=='aosp_permissions':
+#(cmp(resource_name,"aosp_permissions"))
+        if not api:
+            api = CONF["DEFAULT_API"]
+        value = AOSP_PERMISSIONS.get(api)
+        if value:
+            return value
+        return AOSP_PERMISSIONS.get('9')
+    elif cmp(resource_name, "api_permission_mappings"):
+        if not api:
+            api = CONF["DEFAULT_API"]
+        value = AOSP_PERMISSIONS_MAPPINGS.get(api)
+        if value:
+            return value
+        return AOSP_PERMISSIONS_MAPPINGS.get('9')
